@@ -493,14 +493,10 @@ window.__require = function e(t, n, o) {
                     }
                     return e
                 }, t.prototype.findLargestFruit = function() { // 自己加的，用于找到最大序号，以便判断是否是第一次生成
-                    // console.log(this.fruitNode.children[0].getComponent("fruitData").fruitNumber);
                     for (var e = this.fruitNode.children[0].getComponent("fruitData").fruitNumber, t = 1; t < this.fruitNode.children.length; t++) {
                         var n = this.fruitNode.children[t].getComponent("fruitData").fruitNumber;
                         e < n && (e = n)
                     }
-                    // e = this.fruitNode.children[0];
-                    // e = this.fruitNode.children[0].fruitNumber;
-                    // console.log(e);
                     return e;
                 }, t.prototype.createOneFruit = function(e) {
                     var t = this,
@@ -517,13 +513,50 @@ window.__require = function e(t, n, o) {
                     if (e > maxIndex) {
                         var infoBox = document.getElementById("info");
                         var infoText = document.getElementById("text");
+                        var comment = document.getElementById("comment");
+                        var pic = document.getElementById("pic");
                         infoBox.style.display = "block";
+                        pic.src = (maxIndex + ".png");
                         switch (maxIndex) {
                             case 0:
-                                infoText.innerHTML = "This is the target text0.";
+                                comment.innerHTML = "脱氧核苷酸";
+                                infoText.innerHTML = "脱氧核苷酸是遗传物质中最最基本的单位，咱身体每一个细胞中的遗传物质都是由它构成的哦。脱氧核糖核酸由三个小部分组成，分别是胖胖的五边形战士——脱氧核糖、球状的连接骑兵——磷酸基团以及可以相互配对的方块尾巴——碱基。";
                                 break;
                             case 1:
-                                infoText.innerHTML = "This is the target text1.";
+                                comment.innerHTML = "寡聚脱氧核苷酸";
+                                infoText.innerHTML = "每个脱氧核苷酸的磷酸基团与另一个脱氧核苷酸的羟基能够形成磷酸二酯键，他们手拉手就得到了寡聚脱氧核苷酸；他们的碱基尾巴则并行排列在长链的另一边。我们平时所说的遗传信息就储存在他们碱基尾巴的排列顺序中哦！";
+                                break;
+                            case 2:
+                                comment.innerHTML = "DNA长链";
+                                infoText.innerHTML = "随着寡聚脱氧核苷酸继续变长，他们的碱基尾巴不断召唤互补的另一半，最终两条链拧成了一股双螺旋的线，也就是DNA。当然，我们的细胞合成DNA并不是简单的连接那么简单哦。在合成过程中，DNA往往还会被修剪、被检查是否合格，确保可以正常发挥作用。";
+                                break;
+                            case 3:
+                                comment.innerHTML = "前体RNA";
+                                infoText.innerHTML = "我们的身体不仅仅是DNA，还有蛋白质等其他生物大分子。想要合成蛋白质，就需要将信息从DNA中读取出来。在DNA双螺旋被解开之后，他们的碱基尾巴会吸引核糖核苷酸，慢慢形成了一条RNA长链，信息也由DNA转移到了RNA上。一般我们将这个过程称为“转录”";
+                                break;
+                            case 4:
+                                comment.innerHTML = "成熟mRNA";
+                                infoText.innerHTML = "要知道，我们的基因中有相当一部分是不被用于合成蛋白的（称之为内含子）。因此，刚刚合成出来的RNA是不能直接用来指导合成蛋白质的，他们还需要经过修饰和剪切才能更好地发挥作用。经过一系列反应，前体RNA终于成为了成熟mRNA，即将投入生产蛋白的第一线！";
+                                break;
+                            case 5:
+                                comment.innerHTML = "寡肽";
+                                infoText.innerHTML = "类似于早期谍战片中电报员发电报一样，mRNA中的连续三个碱基的排列顺序就像是密码，每一个密码分别对应着一种氨基酸。细胞中的核糖体认读着这些密码，找到对应的交通工具tRNA来将氨基酸送到指定位置并连接起来。这样，我们就得到了几个氨基酸连接的产物——寡肽。";
+                                break;
+                            case 6:
+                                comment.innerHTML = "多肽";
+                                infoText.innerHTML = "随着源自DNA的信息被不断读取，氨基酸不断连接，寡肽继续增长，蛋白质的雏形逐渐形成——这就是多肽。";
+                                break;
+                            case 7:
+                                comment.innerHTML = "蛋白质";
+                                infoText.innerHTML = "多肽仅仅是一条由氨基酸组成的长链，而我们的蛋白质能够发挥各种神奇的功能。这巨大的转变是如何发生的呢？原来，多肽会进入到细胞中的一些加工厂（细胞器）中，被弯曲、折叠、剪切、修饰，折腾出了一些有特定功能的区域。这样，蛋白质就成熟了，可以发挥它应有的作用了。";
+                                break;
+                            case 8:
+                                comment.innerHTML = "细胞";
+                                infoText.innerHTML = "在蛋白质的作用下，我们身体用难以想象的速度生产着各种零部件，然后将他们有序地组装。我们身体的每一个细胞都是这些零部件以特定方式结合的结果。";
+                                break;
+                            case 9:
+                                comment.innerHTML = "人体";
+                                infoText.innerHTML = "恭喜！你已经利用原子一步一步合成了你自己！";
                                 break;
 
                         }
@@ -865,8 +898,9 @@ window.__require = function e(t, n, o) {
 
                     //////////////////////
                     var t = this;
+                    var slider = document.getElementById("fontSizeSlider");
                     i.default.playerTouch && null != a.default.Instance.targetFruit && 1 == this.touchNum && (this.touchNum = 0, a.default.Instance.targetFruit.getComponent(cc.PhysicsCircleCollider).radius = a.default.Instance.targetFruit.height / 2, a.default.Instance.targetFruit.getComponent(cc.PhysicsCircleCollider).apply(), a.default.Instance.targetFruit.getComponent(cc.RigidBody).type = cc.RigidBodyType.Dynamic, a.default.Instance.targetFruit.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, -800), a.default.Instance.targetFruit = null, this.scheduleOnce(function() {
-                        i.default.GameUpdateCtrl && (0 == t.createFruitCount ? (a.default.Instance.createOneFruit(0), t.createFruitCount++) : 1 == t.createFruitCount ? (a.default.Instance.createOneFruit(0), t.createFruitCount++) : 2 == t.createFruitCount ? (a.default.Instance.createOneFruit(1), t.createFruitCount++) : 3 == t.createFruitCount ? (a.default.Instance.createOneFruit(2), t.createFruitCount++) : 4 == t.createFruitCount ? (a.default.Instance.createOneFruit(2), t.createFruitCount++) : 5 == t.createFruitCount ? (a.default.Instance.createOneFruit(3), t.createFruitCount++) : t.createFruitCount > 5 && (a.default.Instance.createOneFruit(s.default.RandomInteger(6, 7)), t.createFruitCount++))
+                        i.default.GameUpdateCtrl && (0 == t.createFruitCount ? (a.default.Instance.createOneFruit(0), t.createFruitCount++) : 1 == t.createFruitCount ? (a.default.Instance.createOneFruit(0), t.createFruitCount++) : 2 == t.createFruitCount ? (a.default.Instance.createOneFruit(1), t.createFruitCount++) : 3 == t.createFruitCount ? (a.default.Instance.createOneFruit(2), t.createFruitCount++) : 4 == t.createFruitCount ? (a.default.Instance.createOneFruit(2), t.createFruitCount++) : 5 == t.createFruitCount ? (a.default.Instance.createOneFruit(3), t.createFruitCount++) : t.createFruitCount > 5 && (a.default.Instance.createOneFruit(s.default.RandomInteger(0.8 * slider.value - 0.4, 1.6 * slider.value + 2)), t.createFruitCount++))
                     }, .5))
                 }, t.prototype.closeTouch = function() {
 

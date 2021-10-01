@@ -5,7 +5,7 @@
     <meta charset="utf-8">
 
     <!-- 微信搜索公众号『 程序员鱼皮 』，学习编程技术，发现更多好玩的项目！ -->
-    <title>合成大西瓜</title>
+    <title>game：Synthetic watermelon</title>
 
     <!--http://www.html5rocks.com/en/mobile/mobifying/-->
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1" />
@@ -78,7 +78,25 @@
       </video>
         <div id="block-Box" style="display:block;width:100%;height:100%;"></div>
     </div>
+    <div id="info" style="display: none;position: absolute;width: 60%;left: calc(20% - 2rem);padding:1rem 2rem;background-color: rgba(235, 235, 205, 0.75);color:black;text-align:justify;border-radius: 1rem;font-size: 1.2rem;height:50%;top: 25%;">
+        <div class="picbox" style="height: 5rem;text-align: center;">
+            <img src="0.png" alt="" style="width: 5rem;">
+        </div>
+        <div class="exit" style="position: absolute;right: 0;top: 0;border-radius: 1rem;width: 2rem;height: 2rem;background-color: #888;color:#fff;text-align: center;cursor: pointer;" onclick="fun1();">x</div>
+        <div id="textContainer" style="display:flex;height:calc(100% - 10rem);">
+            <div id="text" style="margin: auto;max-height:100%;overflow: auto;vertical-align: middle;scrollbar-width: 0;">
+                在寡聚脱氧核苷酸形成后，脱氧核苷酸长链继续合成，形成了一条长长的脱氧核苷酸长链，然后两条长链反向双螺旋盘曲，形成了我们长长的DNA长链。当然，我们的细胞合成DNA并不是单单拼凑出来这么简单哦。
+            </div>
+        </div>
+        <hr>
+        <div id="adjuster" style="font-size:1.5rem; align-items: flex-start;">
+            <!-- <div class="text" style="display: inline-block;"> -->
+            字体大小：
+            <!-- </div> -->
+            <input type="range" id="fontSizeSlider" min="1" max="2" step="0.1" value="1.2" style="height: 1rem;display: block;margin: 1rem 0;" />
+        </div>
 
+    </div>
 
 
     <div id="adContainer" style="display:none;position: absolute;top:0px;left: 0px;width:100%;height:100%;z-index:999;"></div>

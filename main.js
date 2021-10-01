@@ -1,7 +1,5 @@
 // QQPlay window need to be inited first
-if (false) {
-    BK.Script.loadlib('GameRes://libs/qqplay-adapter.js');
-}
+
 
 var loadingBool = true;
 var loadingNum = 0;
@@ -238,28 +236,7 @@ window.boot = function() {
 };
 
 // main.js is qqplay and jsb platform entry file, so we must leave platform init code here
-if (false) {
-    BK.Script.loadlib('GameRes://src/settings.js');
-    BK.Script.loadlib();
-    BK.Script.loadlib('GameRes://libs/qqplay-downloader.js');
-
-    var ORIENTATIONS = {
-        'portrait': 1,
-        'landscape left': 2,
-        'landscape right': 3
-    };
-    BK.Director.screenMode = ORIENTATIONS[window._CCSettings.orientation];
-    initAdapter();
-    cc.game.once(cc.game.EVENT_ENGINE_INITED, function() {
-        initRendererAdapter();
-    });
-
-    qqPlayDownloader.REMOTE_SERVER_ROOT = "";
-    var prevPipe = cc.loader.md5Pipe || cc.loader.assetLoader;
-    cc.loader.insertPipeAfter(prevPipe, qqPlayDownloader);
-
-    window.boot();
-} else if (window.jsb) {
+if (window.jsb) {
 
     var isRuntime = (typeof loadRuntime === 'function');
     if (isRuntime) {
@@ -274,4 +251,11 @@ if (false) {
 
     cc.macro.CLEANUP_IMAGE_CACHE = true;
     window.boot();
+}
+
+var fontSizeSlider = document.getElementById("fontSizeSlider");
+var textBlock = document.getElementById("text");
+fontSizeSlider.oninput = function() {
+    // console.log(fontSizeSlider.value + "rem");
+    textBlock.style.fontSize = fontSizeSlider.value + "rem";
 }

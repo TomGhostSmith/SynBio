@@ -284,7 +284,7 @@ window.__require = function e(t, n, o) {
                 return o(t, e), n = t, t.prototype.onLoad = function() {
                     null != n.Instance && n.Instance.destroy(), n.Instance = this
                 }, t.prototype.start = function() {
-                    this.TGColors.push("f43df7", "ef4126", "6ff814", "32cdf9", "fff02c", "f43df7", "fb4626", "6ff814", "50f7f0", "fff02c")
+                    this.TGColors.push("f43df7", "ef4126", "6ff814", "32cdf9", "fff02c", "f43df7", "fb4626", "6ff814", "50f7f0", "fff02c") // 此处为另一游戏
                 }, t.Instance = null, c([r(cc.SpriteFrame)], t.prototype, "adsbutton", void 0), c([r(cc.SpriteFrame)], t.prototype, "adsbutton2", void 0), c([r(cc.SpriteFrame)], t.prototype, "caidia", void 0), c([r(cc.SpriteFrame)], t.prototype, "fllows", void 0), c([r(cc.SpriteFrame)], t.prototype, "fruit", void 0), c([r(cc.SpriteFrame)], t.prototype, "guozhiZ", void 0), c([r(cc.SpriteFrame)], t.prototype, "guozhiL", void 0), c([r(cc.SpriteFrame)], t.prototype, "fruitL", void 0), t = n = c([i], t)
             }(cc.Component);
         n.default = s, cc._RF.pop()
@@ -489,9 +489,19 @@ window.__require = function e(t, n, o) {
                 }, t.prototype.findHighestFruit = function() {
                     for (var e = this.fruitNode.children[0].y, t = 1; t < this.fruitNode.children.length; t++) {
                         var n = this.fruitNode.children[t].y + this.fruitNode.children[t].width / 2;
-                        e < n && (e = n)
+                        e < n && (e = n);
                     }
                     return e
+                }, t.prototype.findLargestFruit = function() { // 自己加的，用于找到最大序号，以便判断是否是第一次生成
+                    // console.log(this.fruitNode.children[0].getComponent("fruitData").fruitNumber);
+                    for (var e = this.fruitNode.children[0].getComponent("fruitData").fruitNumber, t = 1; t < this.fruitNode.children.length; t++) {
+                        var n = this.fruitNode.children[t].getComponent("fruitData").fruitNumber;
+                        e < n && (e = n)
+                    }
+                    // e = this.fruitNode.children[0];
+                    // e = this.fruitNode.children[0].fruitNumber;
+                    // console.log(e);
+                    return e;
                 }, t.prototype.createOneFruit = function(e) {
                     var t = this,
                         n = cc.instantiate(this.fruitPre);
@@ -502,7 +512,23 @@ window.__require = function e(t, n, o) {
                     }).call(function() {
                         t.targetFruit = n
                     }).start();
-                }, t.prototype.createLevelUpFruit = function(e, t) {
+                }, t.prototype.createLevelUpFruit = function(e, t, maxIndex) {
+                    /////////////
+                    if (e > maxIndex) {
+                        var infoBox = document.getElementById("info");
+                        var infoText = document.getElementById("text");
+                        infoBox.style.display = "block";
+                        switch (maxIndex) {
+                            case 0:
+                                infoText.innerHTML = "This is the target text0.";
+                                break;
+                            case 1:
+                                infoText.innerHTML = "This is the target text1.";
+                                break;
+
+                        }
+                    }
+                    ////////////////
                     var o = cc.instantiate(this.fruitPre);
                     o.parent = this.fruitNode, o.getComponent(cc.Sprite).spriteFrame = d.default.Instance.fruit[e], o.children[0].getComponent(cc.Sprite).spriteFrame = d.default.Instance.fruit[e], o.getComponent("fruitData").fruitNumber = e, o.position = t, o.scale = 0, o.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, -100), o.getComponent(cc.PhysicsCircleCollider).radius = o.height / 2, o.getComponent(cc.PhysicsCircleCollider).apply(), cc.tween(o).to(.5, {
                         scale: 1
@@ -618,7 +644,8 @@ window.__require = function e(t, n, o) {
                 }, t.prototype.GetGameEndShowInfo = function() {
                     return cc.find("Canvas").getComponent("MainGameJS").GetGameEndInfo()
                 }, t.prototype.ToEnd = function() {
-                    cc.find("Canvas").getComponent("MainGameJS").gameEnd1()
+                    if (confirm("观看我们项目的简介视频？")) window.location.href = "https://video.igem.org/w/7nsVni1Fc2HXbewZ6U3quV";
+                    else cc.find("Canvas").getComponent("MainGameJS").gameEnd1()
                 }, t.prototype.PhysicsSystemCtrl = function(e, t) {
                     cc.director.getPhysicsManager().enabled = e, cc.director.getPhysicsManager().gravity = cc.v2(0, -300), t && (cc.director.getPhysicsManager().debugDrawFlags = cc.PhysicsManager.DrawBits.e_shapeBit), cc.director.getCollisionManager().enabled = e, cc.director.getCollisionManager().enabledDebugDraw = t
                 }, t.Instance = null, t.isShowAd = !1, t = n = c([u], t)
@@ -829,13 +856,20 @@ window.__require = function e(t, n, o) {
                         }).start()
                     }
                 }, t.prototype.onTouchMove = function(e) {
+
                     i.default.playerTouch && null != a.default.Instance.targetFruit && (this.touchNum = 1, a.default.Instance.targetFruit.x = this.node.convertToNodeSpaceAR(e.getLocation()).x)
                 }, t.prototype.onTouchEnd = function(e) {
+                    //////////////////////////
+                    var infoBox = document.getElementById("info");
+                    if (infoBox.style.display = "block") infoBox.style.display = "none";
+
+                    //////////////////////
                     var t = this;
                     i.default.playerTouch && null != a.default.Instance.targetFruit && 1 == this.touchNum && (this.touchNum = 0, a.default.Instance.targetFruit.getComponent(cc.PhysicsCircleCollider).radius = a.default.Instance.targetFruit.height / 2, a.default.Instance.targetFruit.getComponent(cc.PhysicsCircleCollider).apply(), a.default.Instance.targetFruit.getComponent(cc.RigidBody).type = cc.RigidBodyType.Dynamic, a.default.Instance.targetFruit.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, -800), a.default.Instance.targetFruit = null, this.scheduleOnce(function() {
-                        i.default.GameUpdateCtrl && (0 == t.createFruitCount ? (a.default.Instance.createOneFruit(0), t.createFruitCount++) : 1 == t.createFruitCount ? (a.default.Instance.createOneFruit(0), t.createFruitCount++) : 2 == t.createFruitCount ? (a.default.Instance.createOneFruit(1), t.createFruitCount++) : 3 == t.createFruitCount ? (a.default.Instance.createOneFruit(2), t.createFruitCount++) : 4 == t.createFruitCount ? (a.default.Instance.createOneFruit(2), t.createFruitCount++) : 5 == t.createFruitCount ? (a.default.Instance.createOneFruit(3), t.createFruitCount++) : t.createFruitCount > 5 && (a.default.Instance.createOneFruit(s.default.RandomInteger(0, 5)), t.createFruitCount++))
+                        i.default.GameUpdateCtrl && (0 == t.createFruitCount ? (a.default.Instance.createOneFruit(0), t.createFruitCount++) : 1 == t.createFruitCount ? (a.default.Instance.createOneFruit(0), t.createFruitCount++) : 2 == t.createFruitCount ? (a.default.Instance.createOneFruit(1), t.createFruitCount++) : 3 == t.createFruitCount ? (a.default.Instance.createOneFruit(2), t.createFruitCount++) : 4 == t.createFruitCount ? (a.default.Instance.createOneFruit(2), t.createFruitCount++) : 5 == t.createFruitCount ? (a.default.Instance.createOneFruit(3), t.createFruitCount++) : t.createFruitCount > 5 && (a.default.Instance.createOneFruit(s.default.RandomInteger(6, 7)), t.createFruitCount++))
                     }, .5))
                 }, t.prototype.closeTouch = function() {
+
                     this.node.off(cc.Node.EventType.TOUCH_START, this.onTouchStart, this), this.node.off(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this), this.node.off(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this), this.node.off(cc.Node.EventType.TOUCH_CANCEL, this.onTouchEnd, this)
                 }, t.prototype.addScore = function() {
                     var e = r.default.Spawn("addScore", cc.find("Canvas/downEffParent"));
@@ -989,6 +1023,9 @@ window.__require = function e(t, n, o) {
                 1 == t ? (this.gameOverT1.string = "\u6e38 \u620f \u7ed3 \u675f", this.gameOverT2.string = "\u70b9 \u51fb \u67e5 \u770b \u5206 \u6570") : 2 == t ? (this.gameOverT1.string = "\u904a \u6232 \u7d50 \u675f", this.gameOverT2.string = "\u9ede \u64ca \u67e5 \u770b \u5206 \u6578") : 4 == t ? (this.gameOverT1.string = "\uac8c\uc784 \uc885\ub8cc", this.gameOverT2.string = "\ud074\ub9ad \ud558\uc5ec \uc810\uc218 \ubcf4\uae30") : (this.gameOverT1.string = "Game Over", this.gameOverT2.string = "Click to view the score"), this.gameOveEndBool = !0, this.gameOverT1.node.zIndex = 999, this.gameOverT2.node.zIndex = 999, this.gameOverToEnd.zIndex = 999, this.gameOverT1.node.opacity = 0, this.gameOverT1.node.y = 100, this.gameOverToEnd.y = 0, this.gameOverT1.node.runAction(cc.sequence(cc.delayTime(.2), cc.spawn(cc.fadeIn(1), cc.moveBy(1, 0, -50)), cc.delayTime(.3))), this.gameOverToEnd.runAction(cc.sequence(cc.fadeTo(1, 100), cc.callFunc(function() {
                     e.gameOverToEnd.getComponent(cc.Button).enabled = !0
                 }))), this.gameOverT2.node.opacity = 0, this.gameOverT2.node.y = this.gameOverT1.node.y - 100, this.gameOverT2.node.runAction(cc.sequence(cc.delayTime(.2), cc.spawn(cc.fadeIn(1), cc.moveBy(1, 0, -50)), cc.delayTime(.3))), this.gameOverT2.node.runAction(cc.sequence(cc.delayTime(2), cc.scaleTo(.3, 1.2).easing(cc.easeSineInOut()), cc.scaleTo(.3, 1).easing(cc.easeSineInOut()))).repeatForever()
+                setTimeout(() => {
+                    if (confirm("前往我们项目的主页？")) window.location.href = "https://2021.igem.org/Team:Fudan";
+                }, 2000);
             },
             initEndLayer: function() {
                 this.gameOverT1.node.active = !1, this.gameOverT2.node.active = !1, this.gameOverToEnd.active = !1, o.publicGameBool || adBreak({
@@ -1084,7 +1121,8 @@ window.__require = function e(t, n, o) {
                 }, t.prototype.update = function(e) {
                     this.UpdateScoreLabel(e), this.lerpCtrl && this.lerpNumFunc(this.passlevelYQ), this.levelPanel.children[1].getComponent(cc.Label).string = s.default.Instance.GetLevel().toString()
                 }, t.prototype.adsButtonFunc = function() {
-
+                    var jump = confirm("观看我们项目的简介视频？");
+                    if (jump) window.open("https://video.igem.org/w/7nsVni1Fc2HXbewZ6U3quV");
                     // window.location.href = "https://636f-codenav-8grj8px727565176-1256524210.tcb.qcloud.la/yupi_wechat.png"; // 关注作者微信
                 }, t.prototype.TestPasslevel = function() {
                     var e = this;
@@ -1217,12 +1255,13 @@ window.__require = function e(t, n, o) {
                         i = c.substring(c.lastIndexOf("/game/") + 1, c.length).split("/");
                     i.length >= 2 && (a = i[1]), this.gameHttpId = a, cc.log("gameId", a);
                     e.substring(e.lastIndexOf("//") + 4, e.lastIndexOf("com") + 3);
-                    this.moreGameUrl = "http://m.wesane.com/"
+                    this.moreGameUrl = ""
                 },
                 gameOverShowText: function(e, t) {
                     this.ajaxLoad("http://www.wesane.com/admin.php/Gamescore/saveGamescore", "gameScore=" + e + "&gameId=" + this.gameHttpId + "&gameType=" + t, this.scoreResult)
                 },
                 gamePV_load: function() {
+                    // alert("0");
                     // this.ajaxLoad("http://www.wesane.com/admin.php/Activityshow/gamelogo", "gameID=" + this.gameHttpId, this.ajaxOnLogoResult)
                 },
                 ajaxOnLogoResult: function() {},
@@ -1752,15 +1791,17 @@ window.__require = function e(t, n, o) {
                         if (this.endCtrl = !0, t.node.y < n.node.y) return;
                         t.node.parent = cc.find("Canvas/fruitNode"), i.default.Instance.fruitHeigth = i.default.Instance.findHighestFruit(), null != t.node.getComponent(cc.RigidBody) && (t.node.getComponent(cc.RigidBody).angularVelocity = 0);
                         var c = this.fruitNumber,
-                            r = n.node.getComponent("fruitData").fruitNumber;
+                            r = n.node.getComponent("fruitData").fruitNumber,
+                            maxIndex = i.default.Instance.findLargestFruit();
                         c == r && c < 9 && r < 9 ? (this.pengzhuangCount += 1, 0 == t.node.getComponent("fruitData").getNumber() && (a.default.score += this.fruitNumber + 1, u.default.Instance.SetScoreTween(a.default.score), n.node.getComponent(cc.PhysicsCircleCollider).radius = 0, n.node.getComponent(cc.PhysicsCircleCollider).apply(), this.node.getComponent(cc.PhysicsCircleCollider).radius = 0, this.node.getComponent(cc.PhysicsCircleCollider).apply(), cc.tween(t.node).to(.1, {
                             position: n.node.position
                         }).call(function() {
-                            i.default.Instance.createFruitSui(o.fruitNumber, n.node.position), i.default.Instance.createFruitL(o.fruitNumber, n.node.position, n.node.width), i.default.Instance.createLevelUpFruit(o.fruitNumber + 1, n.node.position), n.node.active = !1, t.node.active = !1, n.node.destroy(), t.node.destroy()
+                            i.default.Instance.createFruitSui(o.fruitNumber, n.node.position), i.default.Instance.createFruitL(o.fruitNumber, n.node.position, n.node.width), i.default.Instance.createLevelUpFruit(o.fruitNumber + 1, n.node.position, maxIndex), n.node.active = !1, t.node.active = !1, n.node.destroy(), t.node.destroy()
                         }).start())) : c == r && 9 == c && 9 == r && (this.pengzhuangCount += 1, 0 == t.node.getComponent("fruitData").getNumber() && (a.default.score += this.fruitNumber + 1, u.default.Instance.SetScoreTween(a.default.score), n.node.getComponent(cc.PhysicsCircleCollider).radius = 0, n.node.getComponent(cc.PhysicsCircleCollider).apply(), this.node.getComponent(cc.PhysicsCircleCollider).radius = 0, this.node.getComponent(cc.PhysicsCircleCollider).apply(), a.default.playerTouch = !1, cc.tween(t.node).to(.1, {
+                            // 这里是加分的地方
                             position: n.node.position
                         }).call(function() {
-                            i.default.Instance.createFruitSui(o.fruitNumber, n.node.position), i.default.Instance.createFruitL(o.fruitNumber, n.node.position, n.node.width), i.default.Instance.createLevelUpFruit(o.fruitNumber + 1, n.node.position);
+                            i.default.Instance.createFruitSui(o.fruitNumber, n.node.position), i.default.Instance.createFruitL(o.fruitNumber, n.node.position, n.node.width), i.default.Instance.createLevelUpFruit(o.fruitNumber + 1, n.node.position, maxIndex);
                             var e = cc.find("Canvas/upEffectParent").getChildByName("daxigua");
                             e.active = !0, e.opacity = 0, cc.tween(e).to(.5, {
                                 opacity: 150
@@ -1777,23 +1818,23 @@ window.__require = function e(t, n, o) {
                             }))), n.node.active = !1, t.node.active = !1, n.node.destroy(), t.node.destroy()
                         }).start()))
                     }
-                }, t.prototype.createBoom = function() {
-                    var e = r.default.Spawn("boom", cc.find("Canvas/upEffectParent"));
-                    e.position = this.node.position, e.runAction(cc.sequence(cc.delayTime(.5), cc.fadeOut(.5)))
-                }, t.prototype.createStar = function() {
-                    var e = r.default.Spawn("star", cc.find("Canvas/upEffectParent"));
-                    e.scale = s.default.Random(.1, 1);
-                    var t = this.node.x + this.node.width / 2,
-                        n = this.node.x - this.node.width / 2,
-                        o = this.node.y;
-                    e.position = cc.v2(s.default.RandomInteger(n, t), o), e.runAction(cc.fadeOut(2))
-                }, t.prototype.planeBoomEffect = function() {
-                    r.default.Spawn("boom", cc.find("Canvas/upEffectParent")).position = s.default.convetOtherNodeSpaceAR(this.node, cc.find("Canvas/upEffectParent"))
-                }, t.prototype.clockEoilffect = function(e, t) {
-                    for (var n = 0; n < 3; n++) setTimeout(function() {
-                        var t = r.default.Spawn("star", cc.find("Canvas/upEffectParent"));
-                        t.position = e.position, t.scale = .3, t.runAction(cc.sequence(cc.scaleTo(.5, 1.1), cc.fadeOut(.5)))
-                    }, 300 * n)
+                    // }, t.prototype.createBoom = function() {
+                    //     var e = r.default.Spawn("boom", cc.find("Canvas/upEffectParent"));
+                    //     e.position = this.node.position, e.runAction(cc.sequence(cc.delayTime(.5), cc.fadeOut(.5)))
+                    // }, t.prototype.createStar = function() {
+                    //     var e = r.default.Spawn("star", cc.find("Canvas/upEffectParent"));
+                    //     e.scale = s.default.Random(.1, 1);
+                    //     var t = this.node.x + this.node.width / 2,
+                    //         n = this.node.x - this.node.width / 2,
+                    //         o = this.node.y;
+                    //     e.position = cc.v2(s.default.RandomInteger(n, t), o), e.runAction(cc.fadeOut(2))
+                    // }, t.prototype.planeBoomEffect = function() {
+                    //     r.default.Spawn("boom", cc.find("Canvas/upEffectParent")).position = s.default.convetOtherNodeSpaceAR(this.node, cc.find("Canvas/upEffectParent"))
+                    // }, t.prototype.clockEoilffect = function(e, t) {
+                    //     for (var n = 0; n < 3; n++) setTimeout(function() {
+                    //         var t = r.default.Spawn("star", cc.find("Canvas/upEffectParent"));
+                    //         t.position = e.position, t.scale = .3, t.runAction(cc.sequence(cc.scaleTo(.5, 1.1), cc.fadeOut(.5)))
+                    //     }, 300 * n)
                 }, t.prototype.addScoreEffect = function() {
                     var e = r.default.Spawn("add1", cc.find("Canvas/mainGameUi"));
                     e.position = cc.find("Canvas/mainGameUi").children[0].position.add(cc.v2(0, 50)), e.runAction(cc.spawn(cc.moveBy(.5, 0, 50), cc.fadeOut(.5)))
@@ -1811,7 +1852,136 @@ window.__require = function e(t, n, o) {
     }],
 
 
-    gameOverJs: [function(e, t, n) {}],
+    gameOverJs: [function(e, t, n) {
+        //     "use strict";
+        //     cc._RF.push(t, "3621brbM61BsYFG7fM/74TL", "gameOverJs");
+        //     var o = e("GameUiTools"),
+        //         c = e("GameConfig"),
+        //         a = e("MainManage");
+        //     cc.Class({
+        //         extends: cc.Component,
+        //         properties: {
+        //             bgLayer: cc.Node,
+        //             scoreBg: cc.Node,
+        //             overScoreT: cc.Label,
+        //             overInfoT: cc.Label,
+        //             moreBtn: cc.Button,
+        //             leftBtn: cc.Button,
+        //             rightBtn: cc.Button,
+        //             midGameText: cc.Label,
+        //             leftBtnText: cc.Label,
+        //             rightBtnText: cc.Label,
+        //             maxScoreText: cc.Label
+        //         },
+        //         onLoad: function() {
+        //             this.bgLayer.color = cc.color("#68b951"), this.standardScore = c.standScore, this.game_max_score = 200, this.rigthBtnGameName = null, this.rightBtnGameUrl = null, this.UIPosChange(), this.addClickBtns();
+        //             var e = "\u6700\u9ad8\u7eaa\u5f55:",
+        //                 t = this.returnCurrentLanType();
+        //             e = 1 == t ? "\u6700\u9ad8\u7eaa\u5f55:" : 2 == t ? "\u6700\u9ad8\u7d00\u9304:" : 4 == t ? "\ucd5c\uace0 \uae30\ub85d:" : "Highest Record:";
+        //             var n = c.gameScore,
+        //                 o = this.getHighScore();
+        //             o ? o < c.gameScore && (this.setHisSocre(c.gameScore), o = c.gameScore) : (this.setHisSocre(c.gameScore), o = n), this.maxScoreText.string = e + o
+        //         },
+        //         returnCurrentLanType: function() {
+        //             var e = 1;
+        //             switch (cc.sys.language) {
+        //                 case cc.sys.LANGUAGE_CHINESE:
+        //                     "zh-TW" == window.navigator.language || "zh-tw" == window.navigator.language || "zh-HK" == window.navigator.language || "zh-hk" == window.navigator.language ? (cc.log("\u7e41\u4f53"), e = 2) : (cc.log("\u7b80\u4f53"), e = 1);
+        //                     break;
+        //                 case cc.sys.LANGUAGE_KOREAN:
+        //                     e = 4;
+        //                     break;
+        //                 default:
+        //                     e = 3
+        //             }
+        //             return e
+        //         },
+        //         setHisSocre: function(e) {
+        //             cc.sys.localStorage.setItem("HigScore_JiaoTong", e)
+        //         },
+        //         getHighScore: function() {
+        //             return cc.sys.localStorage.getItem("HigScore_JiaoTong")
+        //         },
+        //         UIPosChange: function() {
+        //             this.overScoreT.string = c.gameScore, console.log("lang", a.langugeType);
+        //             var e = null;
+        //             e = 1 == a.langugeType ? this.getContentByScore(c.gameScore, a.gameNameText) : this.getContentByScore2(c.gameScore, a.gameNameText), console.log("nihao", a.endHttpShowInfo), null != a.endHttpShowInfo && "" != a.endHttpShowInfo && (cc.log("gototo"), e = a.endHttpShowInfo), this.overInfoT.string = e;
+        //             var t = this.overInfoT.node.height;
+        //             if (this.overInfoT.node.height = Math.ceil(e.length * this.overInfoT.fontSize / this.overInfoT.node.width) * t, document.title = e, console.log("gameOver txtMoreText", a.txtMoreText), this.midGameText.string = a.txtMoreText, this.leftBtnText.string = a.txtAgainText, this.tempArr = this.gameFocus(), null != a.ranLinkUrl()) {
+        //                 var n = a.ranLinkUrl(),
+        //                     o = a.ranLinkData.gameList[n].gameName;
+        //                 this.rigthBtnGameName = o, this.rightBtnGameUrl = a.ranLinkData.gameList[n].gameUrl
+        //             }
+        //             null != this.rigthBtnGameName && "" != this.rigthBtnGameName ? this.rightBtnText.string = this.rigthBtnGameName : this.rightBtnText.string = this.tempArr[0]
+        //         },
+        //         gameFocus: function() {
+        //             var e = [],
+        //                 t = null,
+        //                 n = null;
+        //             return Math.random() <= .5 ? (t = a.gameEndName1, n = a.gameEndUrl1) : (t = a.gameEndName2, n = a.gameEndUrl2), e.push(t), e.push(n), e
+        //         },
+        //         addClickBtns: function() {
+        //             var e = this;
+        //             e.moreBtn.node.on(cc.Node.EventType.TOUCH_START, function(e) {}), e.moreBtn.node.on(cc.Node.EventType.TOUCH_END, function(e) {
+        //                 console.log("MoreGame"), window.location.href = a.moreGameUrl
+        //             }), e.leftBtn.node.on(cc.Node.EventType.TOUCH_START, function(e) {}), e.leftBtn.node.on(cc.Node.EventType.TOUCH_END, function(e) {
+        //                 c.GAME_OVER_BOOL = !0, c.gameScore = 0, o.loadingScene("MainGameScene")
+        //             }), e.rightBtn.node.on(cc.Node.EventType.TOUCH_START, function(e) {}), e.rightBtn.node.on(cc.Node.EventType.TOUCH_END, function(t) {
+        //                 var n = null;
+        //                 n = null != e.rightBtnGameUrl && "" != e.rightBtnGameUrl ? e.rightBtnGameUrl : e.tempArr[1], window.location.href = n
+        //             })
+        //         },
+        //         getContentByScore: function(e, t) {
+        //             var n = "\u6211\u771f\u662f\u592a\u5389\u5bb3\uff0c\u5728" + t + "\u4e2d\u7adf\u7136\u5f97\u4e861\u5206\uff0c\u5168\u7403\u53ea\u67091\u4e2a\u4eba\u5f971\u5206\uff01",
+        //                 o = parseInt(.3 * this.standardScore),
+        //                 c = parseInt(1.5 * this.standardScore),
+        //                 a = parseInt(2.5 * this.standardScore),
+        //                 i = parseInt(4 * this.standardScore);
+        //             if (e > 0 && e <= o) n = "\u6211\u5728" + t + "\u4e2d\u5f97\u4e86" + e + "\u5206\uff0c\u771f\u662f\u592a\u68d2\u4e86\uff0c\u518d\u7ec3\u7ec3\u5c31\u80fd\u8fbe\u5230\u6e38\u5203\u6709\u4f59\u7684\u5883\u754c\uff01";
+        //             else if (e > o && e <= this.standardScore) n = "\u6211\u5728" + t + "\u4e2d\u5f97\u4e86" + e + "\u5206\uff0c\u771f\u662f\u592a\u68d2\u4e86\uff0c\u518d\u7ec3\u7ec3\u5c31\u80fd\u8fbe\u5230\u6e38\u5203\u6709\u4f59\u7684\u5883\u754c\uff01";
+        //             else if (e > this.standardScore && e <= c) {
+        //                 n = "\u6211\u5728" + t + "\u4e2d\u5f97\u4e86" + e + "\u5206\uff0c\u51fb\u8d25\u4e86\u5168\u7403" + (Math.floor(12 * (e - this.standardScore) / (c - this.standardScore)) + 80) + "%\u7684\u73a9\u5bb6\uff0c\u8fdb\u5165\u4e86\u4fe1\u624b\u62c8\u6765\u7684\u5883\u754c\uff01"
+        //             } else if (e > c && e <= a) {
+        //                 n = "\u6211\u5728" + t + "\u4e2d\u5f97\u4e86" + e + "\u5206\uff0c\u51fb\u8d25\u4e86\u5168\u7403" + (Math.floor(7 * (e - c) / (a - c)) + 92) + "%\u7684\u73a9\u5bb6\uff0c\u8fdb\u5165\u4e86\u8fd0\u7528\u81ea\u5982\u7684\u5883\u754c\uff01"
+        //             } else if (e > a && e <= i) n = "\u6211\u5728" + t + "\u4e2d\u5f97\u4e86" + e + "\u5206\uff0c\u51fb\u8d25\u4e86\u5168\u740399%\u7684\u73a9\u5bb6\uff0c\u8fbe\u5230\u4e86\u884c\u4e91\u6d41\u6c34\u7684\u5883\u754c\uff01";
+        //             else if (e > i && e < this.game_max_score) {
+        //                 n = "\u6211\u5728" + t + "\u4e2d\u5f97\u4e86" + e + "\u5206\uff0c\u636e\u8bf4\u5168\u7403\u53ea\u6709 " + (20 - Math.ceil(17 * (e - i) / (this.game_max_score - i))) + "\u4e2a\u4eba\u8fbe\u5230\u8fd9\u4e2a\u6c34\u5e73\uff0c\u72ec\u5b64\u6c42\u8d25\uff01"
+        //             } else e >= this.game_max_score && (n = "\u6211\u5728" + t + "\u4e2d\u5f97\u4e86" + e + "\u5206\uff0c\u8d85\u8d8a\u4e86\u72ec\u5b64\u6c42\u8d25\uff0c\u5fc3\u6709\u7075\u7280\uff01");
+        //             return n
+        //         },
+        //         strlen: function(e) {
+        //             for (var t = 0, n = 0; n < e.length; n++) {
+        //                 var o = e.charCodeAt(n);
+        //                 o >= 1 && o <= 126 || 65376 <= o && o <= 65439 ? t++ : t += 2
+        //             }
+        //             return t
+        //         },
+        //         getContentByScore2: function(e, t) {
+        //             var n = "I'm awesome\uff0cin" + t + "get 0 score\uff0conly one person in the world has a 0\uff01",
+        //                 o = parseInt(.3 * this.standardScore),
+        //                 c = parseInt(1.5 * this.standardScore),
+        //                 a = parseInt(2.5 * this.standardScore),
+        //                 i = parseInt(4 * this.standardScore);
+        //             if (e >= this.game_max_score) n = "I got " + e + " points in the game, defeating all players worldwide, waiting for you to fight!";
+        //             else if (e > 0 && e <= o) n = "I got " + e + " points in the game, really great\uff01";
+        //             else if (e > o && e <= this.standardScore) n = "I got " + e + " points in the game, really great\uff01";
+        //             else if (e > this.standardScore && e <= c) {
+        //                 n = "I got in the game in " + e + " points, beating out " + (Math.floor(12 * (e - this.standardScore) / (c - this.standardScore)) + 80) + "% of global players\uff01"
+        //             } else if (e > c && e <= a) {
+        //                 n = "I got in the game in " + e + " points, beating out " + (Math.floor(7 * (e - c) / (a - c)) + 92) + "% of global players\uff01"
+        //             } else if (e > a && e <= i) n = "I got in the game in " + e + " points, beating out 99% of global players\uff01";
+        //             else if (e > i && e < this.game_max_score) {
+        //                 n = "I got " + e + " points in the game, it said to be the world's only " + (20 - Math.ceil(17 * (e - i) / (this.game_max_score - i))) + " people to reach this level! Have you?"
+        //             }
+        //             return n
+        //         },
+        //         start: function() {}
+        //     }), cc._RF.pop()
+        // }, {
+        //     GameConfig: "GameConfig",
+        //     GameUiTools: "GameUiTools",
+        //     MainManage: "MainManage"
+    }],
 
 
     linkHttpIconJs: [function(e, t, n) {}],
@@ -1847,3 +2017,8 @@ window.__require = function e(t, n, o) {
 
     winerCollision: [function(e, t, n) {}]
 }, {}, ["HttpManagerJs", "LanguageSetJs", "LoadSceneJs", "AniTools", "MainGameJS", "ToolsJs", "resArr", "MainManage", "AddScore", "AdjusWithHeight", "AudioManager", "AutoDestroy", "DataManager", "EffectCenter", "FailedUi", "GameFunction", "GameManager", "InputController", "KnifeCollision", "MainGameUi", "NewAttribute", "PhysicsParticle", "Rocker", "RotateAround", "Stack", "WallUpdate", "fruitData", "peaCannonAI", "startPanel", "wineObsmove", "winerCollision", "GameConfig", "GameUiTools", "DynamicLoad", "EffectSprite", "PlayerInfo", "PoolManager", "RandomFly", "RenderWater", "Shake", "SpriteManager", "Toast", "Utils", "bfPrefabJs", "gameOverJs", "linkHttpIconJs", "startGameJs", "use_v2.1.x_cc.Action"]);
+
+function fun1() {
+    var info = document.getElementById("info");
+    info.style.display = "none";
+}

@@ -259,3 +259,14 @@ fontSizeSlider.oninput = function() {
     // console.log(fontSizeSlider.value + "rem");
     textBlock.style.fontSize = fontSizeSlider.value + "rem";
 }
+
+// var func2 = function() {
+//     var oFso, oFile, sFile, sContent;
+//     sFile = ".\luckty.txt";
+
+//     //写文件
+//     oFso = new ActiveXObject("Scripting.FileSystemObject");
+//     oFile = oFso.OpenTextFile(sFile, 2, true); //写方式打开
+//     oFile.WriteLine("12");
+//     oFile.Close();
+// }

@@ -85,7 +85,7 @@
                 脱氧核苷酸
             </div>
         </div>
-        <div class="exit" style="position: absolute;right: 0;top: 0;border-radius: 1rem;width: 2rem;height: 2rem;background-color: #888;color:#fff;text-align: center;cursor: pointer;" onclick="fun1();">x</div>
+        <div class="exit" style="position: absolute;right: 0;top: 0;border-radius: 1rem;width: 2rem;height: 2rem;background-color: #888;color:#fff;text-align: center;cursor: pointer;" onclick="fun1()">x</div>
         <div id="textContainer" style="display:flex;height:calc(100% - 11rem);">
             <div id="text" style="margin: auto;max-height:100%;overflow: auto;vertical-align: middle;scrollbar-width: 0;">
                 在寡聚脱氧核苷酸形成后，脱氧核苷酸长链继续合成，形成了一条长长的脱氧核苷酸长链，然后两条长链反向双螺旋盘曲，形成了我们长长的DNA长链。当然，我们的细胞合成DNA并不是单单拼凑出来这么简单哦。
@@ -283,7 +283,61 @@
             document.body.appendChild(cocos2d);
         })();
     </script>
+    <script language=JavaScript>
+        <!--
+        var caution = false
 
+        function setCookie(name, value, expires, path, domain, secure) {
+            var curCookie = name + "=" + escape(value) +
+                ((expires) ? "; expires=" + expires.toGMTString() : "") +
+                ((path) ? "; path=" + path : "") +
+                ((domain) ? "; domain=" + domain : "") +
+                ((secure) ? "; secure" : "")
+            if (!caution || (name + "=" + escape(value)).length <= 4000)
+                document.cookie = curCookie
+            else
+            if (confirm("Cookie exceeds 4KB and will be cut!"))
+                document.cookie = curCookie
+        }
+
+        function getCookie(name) {
+            var prefix = name + "="
+            var cookieStartIndex = document.cookie.indexOf(prefix)
+            if (cookieStartIndex == -1)
+                return null
+            var cookieEndIndex = document.cookie.indexOf(";", cookieStartIndex + prefix.length)
+            if (cookieEndIndex == -1)
+                cookieEndIndex = document.cookie.length
+            return unescape(document.cookie.substring(cookieStartIndex + prefix.length, cookieEndIndex))
+        }
+
+        function deleteCookie(name, path, domain) {
+            if (getCookie(name)) {
+                document.cookie = name + "=" +
+                    ((path) ? "; path=" + path : "") +
+                    ((domain) ? "; domain=" + domain : "") +
+                    "; expires=Thu, 01-Jan-70 00:00:01 GMT"
+            }
+        }
+
+        function fixDate(date) {
+            var base = new Date(0)
+            var skew = base.getTime()
+            if (skew > 0)
+                date.setTime(date.getTime() - skew)
+        }
+        var now = new Date()
+        fixDate(now)
+        now.setTime(now.getTime() + 365 * 24 * 60 * 60 * 1000)
+        var visits = getCookie("counter")
+        if (!visits)
+            visits = 1
+        else
+            visits = parseInt(visits) + 1
+        setCookie("counter", visits, now)
+        document.write("您是第" + visits + "位访问本专题的！")
+            // -->
+    </script>
 
 
 

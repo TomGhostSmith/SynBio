@@ -1058,7 +1058,7 @@ window.__require = function e(t, n, o) {
                     e.gameOverToEnd.getComponent(cc.Button).enabled = !0
                 }))), this.gameOverT2.node.opacity = 0, this.gameOverT2.node.y = this.gameOverT1.node.y - 100, this.gameOverT2.node.runAction(cc.sequence(cc.delayTime(.2), cc.spawn(cc.fadeIn(1), cc.moveBy(1, 0, -50)), cc.delayTime(.3))), this.gameOverT2.node.runAction(cc.sequence(cc.delayTime(2), cc.scaleTo(.3, 1.2).easing(cc.easeSineInOut()), cc.scaleTo(.3, 1).easing(cc.easeSineInOut()))).repeatForever()
                 setTimeout(() => {
-                    if (confirm("前往我们项目的主页？")) window.location.href = "https://2021.igem.org/Team:Fudan";
+                    // if (confirm("前往我们项目的主页？")) window.location.href = "https://2021.igem.org/Team:Fudan";
                 }, 2000);
             },
             initEndLayer: function() {

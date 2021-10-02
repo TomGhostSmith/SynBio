@@ -677,7 +677,7 @@ window.__require = function e(t, n, o) {
                 }, t.prototype.GetGameEndShowInfo = function() {
                     return cc.find("Canvas").getComponent("MainGameJS").GetGameEndInfo()
                 }, t.prototype.ToEnd = function() {
-                    if (confirm("观看我们项目的简介视频？")) window.location.href = "https://video.igem.org/w/7nsVni1Fc2HXbewZ6U3quV";
+                    if (confirm("观看我们项目的简介视频？")) window.location.href = "https://www.bilibili.com/video/BV13h411z7YZ";
                     else cc.find("Canvas").getComponent("MainGameJS").gameEnd1()
                 }, t.prototype.PhysicsSystemCtrl = function(e, t) {
                     cc.director.getPhysicsManager().enabled = e, cc.director.getPhysicsManager().gravity = cc.v2(0, -300), t && (cc.director.getPhysicsManager().debugDrawFlags = cc.PhysicsManager.DrawBits.e_shapeBit), cc.director.getCollisionManager().enabled = e, cc.director.getCollisionManager().enabledDebugDraw = t
@@ -1156,7 +1156,7 @@ window.__require = function e(t, n, o) {
                     this.UpdateScoreLabel(e), this.lerpCtrl && this.lerpNumFunc(this.passlevelYQ), this.levelPanel.children[1].getComponent(cc.Label).string = s.default.Instance.GetLevel().toString()
                 }, t.prototype.adsButtonFunc = function() {
                     var jump = confirm("观看我们项目的简介视频？");
-                    if (jump) window.open("https://video.igem.org/w/7nsVni1Fc2HXbewZ6U3quV");
+                    if (jump) window.open("https://www.bilibili.com/video/BV13h411z7YZ");
                     // window.location.href = "https://636f-codenav-8grj8px727565176-1256524210.tcb.qcloud.la/yupi_wechat.png"; // 关注作者微信
                 }, t.prototype.TestPasslevel = function() {
                     var e = this;
